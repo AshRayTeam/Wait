@@ -109,6 +109,8 @@ void Process::setParent(ProcessID id)
     m_parent = id;
 }
 
+// Get priority function
+
 int Process::getPriority() const 
 {
     return m_priority;
