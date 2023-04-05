@@ -103,7 +103,15 @@ class ProcessManager
      *
      * @return Result code
      */
+
     Result schedule();
+
+    /**
+   * Set priority
+   */
+    Result setPriority(const ProcessID id, const int priority);
+
+
 
     /**
      * Let current Process wait for another Process to terminate.

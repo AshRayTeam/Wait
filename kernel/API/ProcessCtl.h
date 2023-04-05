@@ -36,6 +36,8 @@
  */
 typedef enum ProcessOperation
 {
+    SetPriority = -1;
+    GetPriority,
     Spawn = 0,
     KillPID,
     GetPID,
@@ -62,6 +64,9 @@ ProcessOperation;
  */
 typedef struct ProcessInfo
 {
+    /** Priority number [1, 5] */
+
+    int priority;
     /** Process Identity number. Must be unique. */
     ProcessID id;
 
@@ -70,6 +75,7 @@ typedef struct ProcessInfo
 
     /** Defines the current state of the Process. */
     Process::State state;
+
 }
 ProcessInfo;
 

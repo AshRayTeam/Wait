@@ -57,6 +57,8 @@ API::Result ProcessCtlHandler(const ProcessID procID,
         }
         return (API::Result) (API::Success | (proc->getID() << 16));
 
+    case SetPriority:
+        return (procs->setPriority(procID, addr) == ProcessManager::Success) ? (API::Success) : (API::InvalidArgument);
     case KillPID:
         procs->remove(proc, addr); // Addr contains the exit status
 
@@ -132,6 +134,8 @@ API::Result ProcessCtlHandler(const ProcessID procID,
         break;
 
     case InfoPID:
+        
+        info->priority = proc->getPriority();
         info->id    = proc->getID();
         info->state = proc->getState();
         info->parent = proc->getParent();
@@ -186,6 +190,7 @@ Log & operator << (Log &log, ProcessOperation op)
 {
     switch (op)
     {
+    case SetPriority:   log.append("SetPriority"); break;
         case Spawn:     log.append("Spawn"); break;
         case KillPID:   log.append("KillPID"); break;
         case GetPID:    log.append("GetPID"); break;
