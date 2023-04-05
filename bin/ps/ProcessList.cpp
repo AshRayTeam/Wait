@@ -34,26 +34,56 @@ ProcessList::Result ProcessList::exec()
     const ProcessClient process;
     String out;
 
-    // Print header
-    out << "ID  PARENT  USER GROUP STATUS     CMD\r\n";
-
-    // Loop processes
-    for (ProcessID pid = 0; pid < ProcessClient::MaximumProcesses; pid++)
+    if (arguments().getFlags().count() == 0)
     {
-        ProcessClient::Info info;
+        // Print header
+        out << "ID  PARENT  USER GROUP STATUS     CMD\r\n";
 
-        const ProcessClient::Result result = process.processInfo(pid, info);
-        if (result == ProcessClient::Success)
+        // Loop processes
+        for (ProcessID pid = 0; pid < ProcessClient::MaximumProcesses; pid++)
         {
-            DEBUG("PID " << pid << " state = " << *info.textState << " priority = " << info.kernelState.priority);
+            ProcessClient::Info info;
 
-            // Output a line
-            char line[128];
-            snprintf(line, sizeof(line),
+            const ProcessClient::Result result = process.processInfo(pid, info);
+
+            if (result == ProcessClient::Success)
+            {
+                DEBUG("PID " << pid << " state = " << *info.textState << " priority = " << info.kernelState.priority);
+
+                // Output a line
+                char line[128];
+                snprintf(line, sizeof(line),
                     "%3d %7d %4d %5d %10s %32s\r\n",
-                     pid, info.kernelState.parent, info.kernelState.priority,
-                     0, 0, *info.textState, *info.command);
-            out << line;
+                    pid, info.kernelState.parent,
+                    0, 0, *info.textState, *info.command);
+                out << line;
+            }
+        }
+    }
+
+    // Check for l flag
+    else if (arguments().get("list"))
+    {
+        out << "ID  PRIORITY  PARENT  USER GROUP STATUS     CMD\r\n";
+
+        for (ProcessID pid = 0; pid < ProcessClient::MaximumProcesses; pid++)
+        {
+            ProcessClient::Info info;
+
+            const ProcessClient::Result result = process.processInfo(pid, info);
+
+            if (result == ProcessClient::Success)
+            {
+                DEBUG("PID " << pid << " state = " << *info.textState << " priority = " << info.kernelState.priority);
+
+                // Output a line
+                char line[128];
+                snprintf(line, sizeof(line),
+                    "%3d %6d %7d %4d %5d %10s %32s\r\n",
+                    pid, info.kernelState.priority, info.kernelState.parent,
+                    0, 0, *info.textState, *info.command);
+                out << line;
+            }
         }
     }
 
