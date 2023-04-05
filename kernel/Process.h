@@ -96,6 +96,13 @@ class Process
     ProcessID getID() const;
 
     /**
+    *  Retrieve priority number
+    *
+    * @return Priority
+    */
+    int getPriority() const;
+
+    /**
      * Retrieve our parent ID.
      *
      * @return Process ID of our parent.
@@ -150,6 +157,14 @@ class Process
     bool operator == (Process *proc);
 
   protected:
+
+    /**
+    * Set the priority level
+    *
+    * @param Priority level
+    */
+    
+      Result setPriority(int priority);
 
     /**
      * Initialize the Process.
@@ -242,6 +257,9 @@ class Process
     void setParent(ProcessID id);
 
   protected:
+
+    /** Process priority */
+      int m_priority;
 
     /** Process Identifier */
     const ProcessID m_id;
