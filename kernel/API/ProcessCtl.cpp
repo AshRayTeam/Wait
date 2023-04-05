@@ -59,6 +59,7 @@ API::Result ProcessCtlHandler(const ProcessID procID,
 
     case SetPriority:
         return (procs->setPriority(procID, addr) == ProcessManager::Success) ? (API::Success) : (API::InvalidArgument);
+   
     case KillPID:
         procs->remove(proc, addr); // Addr contains the exit status
 
