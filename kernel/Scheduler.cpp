@@ -26,7 +26,12 @@ Scheduler::Scheduler()
 
 Size Scheduler::count() const
 {
-    return m_queue.count();
+    int count = 0;
+    for (int i = 0; i < 5; i++)
+    {
+        count += m_multilevel_queue[i].count();
+    }
+    return count;
 }
 
 // Modified enqueue to account for priority
@@ -67,13 +72,18 @@ Scheduler::Result Scheduler::dequeue(Process *proc, bool ignoreState)
 
 Process * Scheduler::select()
 {
-    if (m_queue.count() > 0)
+    for (int i = 0; i < 5; ++i)
     {
-        Process *p = m_queue.pop();
-        m_queue.push(p);
-
+        if (m_multilevel_queue[i].isEmpty())
+        {
+            continue;
+        }
+        Process* p = m_multilevel_queue[i].pop();
+        m_multilevel_queue[i].push(p);
+        //if (p->getID() == 18 || p->getID() == 17)
+        //    ERROR("PROCESS ID " << p->getID() << " selected to run.\n");
         return p;
     }
 
-    return (Process *) NULL;
+    return (Process*)NULL;
 }

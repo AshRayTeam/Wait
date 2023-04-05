@@ -90,7 +90,8 @@ class Scheduler
   private:
 
     /** Contains processes ready to run */
-    Queue<Process *, MAX_PROCS> m_queue;
+    // Initialize multilevel queue with a range of 5
+    Queue<Process *, MAX_PROCS> m_multilevel_queue[5];
 };
 
 /**
