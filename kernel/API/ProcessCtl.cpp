@@ -59,7 +59,7 @@ API::Result ProcessCtlHandler(const ProcessID procID,
 
     case SetPriority:
         return (procs->setPriority(procID, addr) == ProcessManager::Success) ? (API::Success) : (API::InvalidArgument);
-   
+
     case KillPID:
         procs->remove(proc, addr); // Addr contains the exit status
 
@@ -135,7 +135,7 @@ API::Result ProcessCtlHandler(const ProcessID procID,
         break;
 
     case InfoPID:
-        
+
         info->priority = proc->getPriority();
         info->id    = proc->getID();
         info->state = proc->getState();
@@ -177,6 +177,11 @@ API::Result ProcessCtlHandler(const ProcessID procID,
         procs->schedule();
         break;
 
+    case RenicePID:
+        proc->setPriority(addr);
+        procs->schedule();
+        break;
+
     case EnterSleep:
         // Only sleeps the process if no pending wakeups
         if (procs->sleep((const Timer::Info *)addr) == ProcessManager::Success)
@@ -205,6 +210,7 @@ Log & operator << (Log &log, ProcessOperation op)
         case EnterSleep: log.append("EnterSleep"); break;
         case Schedule:  log.append("Schedule"); break;
         case Wakeup:    log.append("Wakeup"); break;
+        case RenicePID: log.append("RenicePID"); break;
         default:        log.append("???"); break;
     }
     return log;

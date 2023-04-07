@@ -55,7 +55,8 @@ typedef enum ProcessOperation
     Wakeup,
     Stop,
     Resume,
-    Reset
+    Reset,
+    RenicePID
 }
 ProcessOperation;
 

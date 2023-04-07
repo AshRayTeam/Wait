@@ -156,15 +156,17 @@ class Process
      */
     bool operator == (Process *proc);
 
-  protected:
 
     /**
     * Set the priority level
     *
     * @param Priority level
     */
-    
-      Result setPriority(int priority);
+
+    Result setPriority(int priority);
+
+  protected:
+
 
     /**
      * Initialize the Process.

@@ -40,9 +40,6 @@ class ProcessClient
 {
   public:
 
-    /** Maximum number of processes */
-    static const Size MaximumProcesses = MAX_PROCS;
-
     /**
      * Result codes
      */
@@ -70,6 +67,8 @@ class ProcessClient
     Info;
 
   public:
+
+    static const Size MaximumProcesses = MAX_PROCS;
 
     /**
      * Get current process identifier
@@ -120,6 +119,7 @@ class ProcessClient
      *         or ANY if none found.
      */
     ProcessID findProcess(const String program) const;
+    void setPriority(ProcessID pid, int priority);
 
   private:
 
