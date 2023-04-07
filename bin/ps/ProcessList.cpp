@@ -36,10 +36,8 @@ ProcessList::Result ProcessList::exec()
 
     if (arguments().getFlags().count() == 0)
     {
-        // Print header
         out << "ID  PARENT  USER GROUP STATUS     CMD\r\n";
 
-        // Loop processes
         for (ProcessID pid = 0; pid < ProcessClient::MaximumProcesses; pid++)
         {
             ProcessClient::Info info;
@@ -50,7 +48,6 @@ ProcessList::Result ProcessList::exec()
             {
                 DEBUG("PID " << pid << " state = " << *info.textState << " priority = " << info.kernelState.priority);
 
-                // Output a line
                 char line[128];
                 snprintf(line, sizeof(line),
                     "%3d %7d %4d %5d %10s %32s\r\n",
@@ -61,7 +58,6 @@ ProcessList::Result ProcessList::exec()
         }
     }
 
-    // Check for l flag
     else if (arguments().get("list"))
     {
         out << "ID  PRIORITY  PARENT  USER GROUP STATUS     CMD\r\n";

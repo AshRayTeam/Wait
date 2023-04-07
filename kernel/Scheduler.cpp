@@ -80,8 +80,7 @@ Process * Scheduler::select()
         }
         Process* p = m_multilevel_queue[i].pop();
         m_multilevel_queue[i].push(p);
-        //if (p->getID() == 18 || p->getID() == 17)
-        //    ERROR("PROCESS ID " << p->getID() << " selected to run.\n");
+       
         return p;
     }
 
